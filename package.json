@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@chainlink/contracts": "^0.6.1",
     "@openzeppelin/contracts": "^4.8.2",
     "hardhat": "^2.13.0"
   },
@@ -20,6 +21,8 @@
     "solidity-coverage": "^0.8.2"
   },
   "paths": {
-    "@openzeppelin/*": ["node_modules/@openzeppelin/*"]
+    "@openzeppelin/*": [
+      "node_modules/@openzeppelin/*"
+    ]
   }
 }

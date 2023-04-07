@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
-import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.19;
 
 contract DogsCollection is ERC721("Doggy", "DOG") {
     uint private tokenCounter;
