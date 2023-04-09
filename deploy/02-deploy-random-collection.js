@@ -6,6 +6,9 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
     const { deploy, log } = deployments
     const { deployer } = await getNamedAccounts()
     const chainId = network.config.chainId
+
+    let dogsTokenUris = []
+
     let vrfCoordinatorV2Address, subscriptionId
     if (developmentChains.includes(network.name)) {
         const vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
@@ -24,6 +27,6 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
         networkConfig[chainId].gasLane,
         networkConfig[chainId].mintFee,
         networkConfig[chainId].callbackGasLimit,
-        networkConfig[chainId].dogTokenUris,
+        dogsTokenUris,
     ]
 }
