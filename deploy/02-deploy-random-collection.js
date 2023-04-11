@@ -1,7 +1,9 @@
 const { network } = require("hardhat")
 const { developmentChains, networkConfig } = require("../helper-hardhat-config")
 const { verify } = require("../utils/verify")
-const { storeImages } = require("../utils/uploadToPinata")
+const { storeImages, storeTokenUriMetadata } = require("../utils/uploadToPinata")
+const metadata = require("../metadata.json")
+require("dotenv").config()
 
 const imagesLocation = "/Users/mac/Documents/GitHub/basic-erc721/images"
 
@@ -11,7 +13,7 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
     const chainId = network.config.chainId
 
     let dogsTokenUris = []
-    if (process.env.UPLOAD_TO_IPFS === "true") {
+    if (process.env.UPLOAD_TO_IPFS == "true") {
         dogsTokenUris = await fetchTokenUris()
     }
 
@@ -27,7 +29,7 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
         subscriptionId = networkConfig[chainId].subscriptionId
     }
     log("=============================================")
-    await storeImages(imagesLocation)
+
     // const args = [
     //     vrfCoordinatorV2Address,
     //     subscriptionId,
@@ -39,7 +41,16 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
 }
 
 async function fetchTokenUris() {
-    return dogsTokenUris
+    let tokenUris = []
+    const { responses: imageUploadResponses, files } = await storeImages(imagesLocation)
+    for (let imageUploadResponsesIndex in imageUploadResponses) {
+        let tokenUriMetadata = { ...metadata[imageUploadResponsesIndex] }
+        tokenUriMetadata.image = `ipfs://${imageUploadResponses[imageUploadResponsesIndex].IpfsHash}`
+        console.log("uploading metadata...")
+        const metadataUploadResponse = await storeTokenUriMetadata(tokenUriMetadata)
+        tokenUris.push(`ipfs://${metadataUploadResponse.IpfsHash}`)
+    }
+    return tokenUris
 }
 
 module.exports.tags = ["all", "randomipfs", "main"]
