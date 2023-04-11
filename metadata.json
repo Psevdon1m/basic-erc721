@@ -1,0 +1,208 @@
+[
+    {
+      "name": "Bella",
+      "description": "Bella is a beautiful Poodle with a friendly personality. She has a white coat with spotted patterns that make her unique and stand out. Her cute pixelated appearance only adds to her charm and makes her an adorable companion",
+      "image": "",
+      "attributes": [
+        {
+          "trait_type": "Breed",
+          "value": "Poodle"
+        },
+        {
+          "trait_type": "Color",
+          "value": "White"
+        },
+        {
+          "trait_type": "Pattern",
+          "value": "Spotted"
+        },
+        {
+          "trait_type": "Personality",
+          "value": "Friendly"
+        }
+      ]
+    },
+    {
+      "name": "Charlie",
+      "description": "Charlie is a Husky with a solid gray coat that makes him look majestic. He is known for his loyalty and devotion to his owner, which makes him a great family dog. His pixelated appearance gives him a unique and charming look.",
+      "image": "",
+      "attributes": [
+        {
+          "trait_type": "Breed",
+          "value": "Husky"
+        },
+        {
+          "trait_type": "Color",
+          "value": "Gray"
+        },
+        {
+          "trait_type": "Pattern",
+          "value": "Solid"
+        },
+        {
+          "trait_type": "Personality",
+          "value": "Loyal"
+        }
+      ]
+    },
+    {
+      "name": "Max",
+      "description": "Max is a playful Labrador Retriever with a black coat. His solid coat and friendly personality make him a great companion for anyone who loves to play and have fun. He is a cute pixelated dog with a unique trait that makes him stand out.",
+      "image": "",
+      "attributes": [
+        {
+          "trait_type": "Breed",
+          "value": "Labrador Retriever"
+        },
+        {
+          "trait_type": "Color",
+          "value": "Black"
+        },
+        {
+          "trait_type": "Pattern",
+          "value": "Solid"
+        },
+        {
+          "trait_type": "Personality",
+          "value": "Playful"
+        }
+      ]
+    },
+    {
+      "name": "Lucy",
+      "description": "Lucy is a Golden Retriever with a friendly personality and a golden coat that matches her name. She has a solid coat that makes her look elegant and sophisticated. Her cute pixelated appearance only adds to her charm and makes her an adorable companion.",
+      "image": "",
+      "attributes": [
+        {
+          "trait_type": "Breed",
+          "value": "Golden Retriever"
+        },
+        {
+          "trait_type": "Color",
+          "value": "Golden"
+        },
+        {
+          "trait_type": "Pattern",
+          "value": "Solid"
+        },
+        {
+          "trait_type": "Personality",
+          "value": "Friendly"
+        }
+      ]
+    },
+    {
+      "name": "Daisy",
+      "description": "Daisy is a brave Chihuahua with a brown coat that gives her a cute and charming appearance. She is known for her fearlessness and determination, making her a great watchdog. Her pixelated appearance only adds to her unique look.",
+      "image": "",
+      "attributes": [
+        {
+          "trait_type": "Breed",
+          "value": "Chihuahua"
+        },
+        {
+          "trait_type": "Color",
+          "value": "Brown"
+        },
+        {
+          "trait_type": "Pattern",
+          "value": "Solid"
+        },
+        {
+          "trait_type": "Personality",
+          "value": "Brave"
+        }
+      ]
+    },
+    {
+      "name": "Rocky",
+      "description": "Rocky is a stubborn Bulldog with a white coat that makes him look tough and strong. He is known for his persistence and tenacity, making him a great companion for anyone who wants a loyal friend. His cute pixelated appearance gives him a unique and charming look.",
+      "image": "",
+      "attributes": [
+        {
+          "trait_type": "Breed",
+          "value": "Bulldog"
+        },
+        {
+          "trait_type": "Color",
+          "value": "White"
+        },
+        {
+          "trait_type": "Pattern",
+          "value": "Solid"
+        },
+        {
+          "trait_type": "Personality",
+          "value": "Stubborn"
+        }
+      ]
+    },{
+        "name": "Cooper",
+        "description": "Cooper is a curious Beagle with a brown coat and spotted patterns that make him stand out. He is known for his inquisitive nature and love of exploration, making him a great companion for anyone who loves to go on adventures. His pixelated appearance only adds to his unique and charming look.",
+        "image": "",
+        "attributes": [
+          {
+            "trait_type": "Breed",
+            "value": "Beagle"
+          },
+          {
+            "trait_type": "Color",
+            "value": "Brown"
+          },
+          {
+            "trait_type": "Pattern",
+            "value": "Spotted"
+          },
+          {
+            "trait_type": "Personality",
+            "value": "Curious"
+          }
+        ]
+      },
+      {
+        "name": "Luna",
+        "description": "Luna is an energetic Dalmatian with a white coat and spotted patterns that make her unique and stand out. She is known for her enthusiasm and love of play, making her a great companion for anyone who loves to have fun. Her cute pixelated appearance only adds to her charm and makes her an adorable companion.",
+        "image": "",
+        "attributes": [
+          {
+            "trait_type": "Breed",
+            "value": "Dalmatian"
+          },
+          {
+            "trait_type": "Color",
+            "value": "White"
+          },
+          {
+            "trait_type": "Pattern",
+            "value": "Spotted"
+          },
+          {
+            "trait_type": "Personality",
+            "value": "Energetic"
+          }
+        ]
+      },
+      {
+        "name": "Zeus",
+        "description": "Zeus is an independent Siberian Husky with a black and white coat. He is known for his self-reliance and stubbornness, which makes him a great companion for someone who appreciates a dog with a strong personality. His cute pixelated appearance only adds to his unique and charming look.",
+        "image": "",
+        "attributes": [
+          {
+            "trait_type": "Breed",
+            "value": "Siberian Husky"
+          },
+          {
+            "trait_type": "Color",
+            "value": "Black and White"
+          },
+          {
+            "trait_type": "Pattern",
+            "value": "Solid"
+          },
+          {
+            "trait_type": "Personality",
+            "value": "Independent"
+          }
+        ]
+      }
+]
