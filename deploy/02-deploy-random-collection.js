@@ -30,26 +30,38 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
     }
     log("=============================================")
 
-    // const args = [
-    //     vrfCoordinatorV2Address,
-    //     subscriptionId,
-    //     networkConfig[chainId].gasLane,
-    //     networkConfig[chainId].mintFee,
-    //     networkConfig[chainId].callbackGasLimit,
-    //     dogsTokenUris,
-    // ]
+    const args = [
+        vrfCoordinatorV2Address,
+        subscriptionId,
+        networkConfig[chainId].callbackGasLimit,
+        networkConfig[chainId].gasLane,
+        dogsTokenUris,
+    ]
+    const dogsRandomCollection = await deploy("DogsRandomCollection", {
+        from: deployer,
+        args,
+        log: true,
+        waitConfirmations: network.config.blockConfirmations || 1,
+    })
+
+    if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+        log("Verifying...")
+        await verify(dogsRandomCollection.address, args)
+    }
 }
 
 async function fetchTokenUris() {
     let tokenUris = []
     const { responses: imageUploadResponses, files } = await storeImages(imagesLocation)
+    console.log("uploading metadata...")
     for (let imageUploadResponsesIndex in imageUploadResponses) {
         let tokenUriMetadata = { ...metadata[imageUploadResponsesIndex] }
         tokenUriMetadata.image = `ipfs://${imageUploadResponses[imageUploadResponsesIndex].IpfsHash}`
-        console.log("uploading metadata...")
+
         const metadataUploadResponse = await storeTokenUriMetadata(tokenUriMetadata)
         tokenUris.push(`ipfs://${metadataUploadResponse.IpfsHash}`)
     }
+    console.log("success metadata uploaded")
     return tokenUris
 }
 

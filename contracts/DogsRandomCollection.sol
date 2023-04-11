@@ -14,9 +14,15 @@ pragma solidity ^0.8.19;
 
 contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
     enum Breed {
-        PUG,
-        SHIBA_INU,
-        ST_BERNARD
+        POODLE,
+        HUSKY,
+        LABRADOR_RETRIEVER,
+        GOLDEN_RETRIEVER,
+        CHIHUAHUA,
+        BULLDOG,
+        BEAGLE,
+        DALMATIAN,
+        SIBERIAN_HUSKY
     }
     VRFCoordinatorV2Interface private immutable vrfCoordinator;
     address public owner;
@@ -28,7 +34,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
     uint8 internal constant MAX_CHANCE = 100;
     bytes32 private immutable gasLane;
-    string[] internal dogsTokenUris;
+    string[9] internal dogsTokenUris;
 
     mapping(uint256 => address) public requestIdToSender;
     modifier only(address who) {
@@ -44,7 +50,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
         uint64 _subscriptionId,
         uint32 _callbackGasLimit,
         bytes32 _gasLane,
-        string[3] memory _dogsTokenUris
+        string[9] memory _dogsTokenUris
     ) VRFConsumerBaseV2(_vrfCoordinatorV2) ERC721("Random Doggy Dogs", "RDD") {
         owner = msg.sender;
         vrfCoordinator = VRFCoordinatorV2Interface(_vrfCoordinatorV2);
@@ -86,7 +92,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
 
     function getBreed(uint8 dogType) public pure returns (Breed) {
         uint256 cumulativeSum = 0;
-        uint8[3] memory chanceArray = getChanceArray();
+        uint8[9] memory chanceArray = getChanceArray();
 
         for (uint8 i; i < chanceArray.length; ) {
             if (dogType >= cumulativeSum && dogType < cumulativeSum + chanceArray[i]) {
@@ -107,8 +113,8 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
         }
     }
 
-    function getChanceArray() public pure returns (uint8[3] memory) {
-        return [10, 30, MAX_CHANCE];
+    function getChanceArray() public pure returns (uint8[9] memory) {
+        return [10, 20, 30, 40, 50, 60, 70, 80, MAX_CHANCE];
     }
 
     function changeMintPrice(uint256 newPrice) public only(owner) {

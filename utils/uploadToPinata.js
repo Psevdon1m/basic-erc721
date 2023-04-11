@@ -25,8 +25,8 @@ async function storeImages(imagesFilePath) {
             console.log(error)
         }
     }
-    console.log("============ IPFS All good===============")
-    console.log({ responses, files })
+    console.log("============ Images upladed successfully===============")
+
     return { responses, files }
 }
 
