@@ -79,11 +79,12 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
         address dogOwner = requestIdToSender[requestId];
         uint newTokenId = tokenCounter;
 
-        console.log("random number is %s", randomWords[0]);
+        // console.log("random number is %s", randomWords[0]);
         uint256 testValue = randomWords[0] % MAX_CHANCE;
         console.log("modded test value is  %s", testValue);
         uint256 dogType = randomWords[0] % MAX_CHANCE;
         Breed dogBreed = getBreed(dogType);
+        console.log("Dog breed is %s: ", uint256(dogBreed));
         _safeMint(dogOwner, newTokenId);
         _setTokenURI(newTokenId, dogsTokenUris[uint8(dogBreed)]);
         tokenCounter++;
@@ -114,7 +115,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
     }
 
     function getChanceArray() public pure returns (uint8[9] memory) {
-        return [10, 20, 30, 40, 50, 60, 70, 80, MAX_CHANCE];
+        return [11, 11, 11, 11, 11, 11, 11, 11, MAX_CHANCE];
     }
 
     function changeMintPrice(uint256 newPrice) public only(owner) {

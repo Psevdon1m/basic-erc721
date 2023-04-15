@@ -58,21 +58,43 @@ const timer = (ms) => new Promise((res) => setTimeout(res, ms))
 
               it("Mints nft in loop", async () => {
                   let mintPromiseArray = []
-                  for (let i = 0; i < 1; i++) {
+                  //1)add batch request nft to promise array
+
+                  for (let i = 0; i < 3; i++) {
                       const queryInPromise = dogsCollection.requestNft({
                           value: ethers.utils.parseEther("0.01"),
                       })
                       mintPromiseArray.push(queryInPromise)
                   }
+                  //2) wait till all promises resolves
                   let result = await Promise.allSettled(mintPromiseArray)
                   mintPromiseArray = []
+                  //3) wait till all tansactions are minned
+
+                  for (let res of result) {
+                      mintPromiseArray.push(res["value"].wait())
+                  }
+
+                  result = await Promise.allSettled(mintPromiseArray)
+                  mintPromiseArray = []
+                  //4) then contract sends multiple request to vrfCoordinator for a set of random words
+                  for (let res of result) {
+                      mintPromiseArray.push(
+                          await vrfCoordinatorV2Mock.fulfillRandomWords(
+                              res["value"].events[1].args.requestId,
+                              dogsCollection.address
+                          )
+                      )
+                  }
+                  //5)wait till all promisses are resolved
+                  result = await Promise.allSettled(mintPromiseArray)
+                  mintPromiseArray = []
+                  //6) wait till all transactions are mined
                   for (let res of result) {
                       mintPromiseArray.push(res["value"].wait())
                   }
                   result = await Promise.allSettled(mintPromiseArray)
-
-                  await vrfCoordinatorV2Mock.fulfillRandomWords() // todo fullfill request for consumet
-                  console.log(await dogsCollection.balanceOf(deployer.address))
+                  console.log(Number(result[0]["value"].events.args[0]))
               })
           })
       })
