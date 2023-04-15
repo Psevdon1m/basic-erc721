@@ -28,7 +28,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
     address public owner;
     uint256 public mint_fee = 0.01 ether;
     uint256 public tokenCounter;
-    uint64 private immutable subscriptionId;
+    uint64 public immutable subscriptionId;
     uint32 private immutable callbackGasLimit;
     uint32 private constant NUM_WORDS = 1;
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
