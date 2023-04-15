@@ -15,12 +15,25 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
     let dogsTokenUris = []
     if (process.env.UPLOAD_TO_IPFS == "true") {
         dogsTokenUris = await fetchTokenUris()
+    } else {
+        dogsTokenUris = [
+            "ipfs://bafybeifpbb5hkgvn6sw4q7cg36spbfh2jsvblfw23tfrmjpjmmczrkjyxq/",
+            "ipfs://bafybeihlcmmqolpnije4cxieg5kmsy3vrqgdkmeslgqtpu7orl5ge4lw2e/",
+            "ipfs://bafybeicgartkuy2w5avistn55sfn3v3mlatiamx2ludxuvzeqapenwdnrq/",
+            "ipfs://bafybeidt5npl5yaepabo6ugi2yuq2fkdpm4l7jtgmft7yuj4yrbffcjkky/",
+            "ipfs://bafybeihtodlcjgtmcnethr4mwoqzw3fceg6ucwjzafhe74yl5lsezgmjaa/",
+            "ipfs://bafybeicr45pcbmdtcn5t5x7uzt6qjaibv5ibedg3gxczz4l76l7bcs5ndm/",
+            "ipfs://bafybeidkyxnrepqes4vdqrhfnr5rskuxtyh67n4jms7trq4f3difzstkfu/",
+            "ipfs://bafybeibedyjwajelgxmve72mu2gc5osh5eifpyfbofrji2zeczlxpa3dvq/",
+            "ipfs://bafybeicx6uokfxyru3h53kb2snq3hxshec2vbsepnc2hdyvh5au34bze74/",
+        ]
     }
 
     let vrfCoordinatorV2Address, subscriptionId
     if (developmentChains.includes(network.name)) {
         const vrfCoordinatorV2Mock = await ethers.getContract("VRFCoordinatorV2Mock")
         vrfCoordinatorV2Address = vrfCoordinatorV2Mock.address
+
         const tx = await vrfCoordinatorV2Mock.createSubscription()
         const txReceipt = await tx.wait()
         subscriptionId = txReceipt.events[0].args.subId
@@ -28,6 +41,7 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
         vrfCoordinatorV2Address = networkConfig[chainId].vrfCoordinatorV2
         subscriptionId = networkConfig[chainId].subscriptionId
     }
+
     log("=============================================")
 
     const args = [

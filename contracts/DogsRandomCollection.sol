@@ -82,7 +82,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
         console.log("random number is %s", randomWords[0]);
         uint256 testValue = randomWords[0] % MAX_CHANCE;
         console.log("modded test value is  %s", testValue);
-        uint8 dogType = uint8(randomWords[0] % MAX_CHANCE);
+        uint256 dogType = randomWords[0] % MAX_CHANCE;
         Breed dogBreed = getBreed(dogType);
         _safeMint(dogOwner, newTokenId);
         _setTokenURI(newTokenId, dogsTokenUris[uint8(dogBreed)]);
@@ -90,7 +90,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
         emit NftMinted(dogBreed, dogOwner, newTokenId);
     }
 
-    function getBreed(uint8 dogType) public pure returns (Breed) {
+    function getBreed(uint256 dogType) public pure returns (Breed) {
         uint256 cumulativeSum = 0;
         uint8[9] memory chanceArray = getChanceArray();
 
