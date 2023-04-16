@@ -4,7 +4,7 @@ import "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
 import "hardhat/console.sol";
-
+//revert with errors is more gas efficient than revert with require()
 error DogsRandomCollection__RangeOutOfValue();
 error DogsRandomCollection__NotAllowed();
 error DogsRandomCollection__PriceTooLow();
@@ -37,6 +37,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
     string[9] internal dogsTokenUris;
 
     mapping(uint256 => address) public requestIdToSender;
+
     modifier only(address who) {
         if (msg.sender != who) revert DogsRandomCollection__NotAllowed();
         _;
@@ -60,7 +61,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
         dogsTokenUris = _dogsTokenUris;
     }
 
-    function requestNft() public payable returns (uint256 requestId) {
+    function purchaseDog() public payable returns (uint256 requestId) {
         if (msg.value < mint_fee) {
             revert DogsRandomCollection__PriceTooLow();
         }
@@ -78,15 +79,11 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
     function fulfillRandomWords(uint256 requestId, uint256[] memory randomWords) internal override {
         address dogOwner = requestIdToSender[requestId];
         uint newTokenId = tokenCounter;
-
-        // console.log("random number is %s", randomWords[0]);
-        // uint256 testValue = randomWords[0] % MAX_CHANCE;
-        // console.log("modded test value is  %s", testValue);
         uint8 dogType = uint8(randomWords[0] % MAX_CHANCE);
         Breed dogBreed = getBreed(dogType);
-        // console.log("Dog breed is %s: ", uint256(dogBreed));
         _safeMint(dogOwner, newTokenId);
         _setTokenURI(newTokenId, dogsTokenUris[uint8(dogBreed)]);
+        //var++ is more gas efficient than var +=1 or var = var + 1;
         tokenCounter++;
         emit NftMinted(dogBreed, dogOwner, newTokenId);
     }
@@ -94,12 +91,15 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
     function getBreed(uint8 dogType) public pure returns (Breed) {
         uint256 cumulativeSum = 0;
         uint8[9] memory chanceArray = getChanceArray();
-
+        //i is alaready initialized to 0 so no need to set is manually like i = 0;
+        //since change array not that long i didn't save its length to a variable. But this can be an additional gas optimization
         for (uint8 i; i < chanceArray.length; ) {
             if (dogType >= cumulativeSum && dogType < cumulativeSum + chanceArray[i]) {
                 return Breed(i);
             }
             cumulativeSum += chanceArray[i];
+            //since i is withing range of 9 it wont overflow uint8 max value, therefore safeMath check can be ommited
+            //++i is more gas efficient that i++;
             unchecked {
                 ++i;
             }
@@ -115,6 +115,7 @@ contract DogsRandomCollection is VRFConsumerBaseV2, ERC721URIStorage {
     }
 
     function getChanceArray() public pure returns (uint8[9] memory) {
+        //randomness is evenly divided for each breed
         return [11, 11, 11, 11, 11, 11, 11, 11, MAX_CHANCE];
     }
 
