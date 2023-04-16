@@ -35,18 +35,9 @@ const timer = (ms) => new Promise((res) => setTimeout(res, ms))
               txReceipt = await tx.wait()
               tx = await vrfCoordinatorV2Mock.fundSubscription(
                   subscriptionId,
-                  ethers.utils.parseEther("100")
+                  ethers.utils.parseEther("500")
               )
               txReceipt = await tx.wait()
-              console.log("subsc funded")
-              console.log(
-                  await vrfCoordinatorV2Mock.consumerIsAdded(subscriptionId, dogsCollection.address)
-              )
-              console.log({
-                  dogsCollection: dogsCollection.address,
-                  vrfCoordinatorV2Mock: vrfCoordinatorV2Mock.address,
-                  deployer: deployer.address,
-              })
           })
 
           describe("Mintes a set of nft and checks the randomness", () => {
@@ -60,7 +51,7 @@ const timer = (ms) => new Promise((res) => setTimeout(res, ms))
                   let mintPromiseArray = []
                   //1)add batch request nft to promise array
 
-                  for (let i = 0; i < 3; i++) {
+                  for (let i = 0; i < 1000; i++) {
                       const queryInPromise = dogsCollection.requestNft({
                           value: ethers.utils.parseEther("0.01"),
                       })
@@ -94,7 +85,14 @@ const timer = (ms) => new Promise((res) => setTimeout(res, ms))
                       mintPromiseArray.push(res["value"].wait())
                   }
                   result = await Promise.allSettled(mintPromiseArray)
-                  console.log(Number(result[0]["value"].events.args[0]))
+                  const filter = dogsCollection.filters["NftMinted"]()
+                  const events = await dogsCollection.queryFilter(filter)
+                  const breedArray = Object.keys(breedToCountObj)
+                  events.forEach((el) => {
+                      const key = breedArray[Number(el.args[0])]
+                      breedToCountObj[key]++
+                  })
+                  console.log(breedToCountObj)
               })
           })
       })
