@@ -5,6 +5,7 @@ This Solidity smart contract is called DogsRandomCollection and is based on the 
 The contract makes use of Chainlink's VRF (Verifiable Random Function) to generate random numbers securely and ensure that the dog breed distribution is even. The breed is chosen from a predefined set of options and the contract's owner can adjust the price of minting a new token. In addition, the contract owner can withdraw the accumulated balance in the contract account.
 
 Link to testnet opeansea collection https://testnets.opensea.io/collection/random-doggy-dogs-3
+
 Link to verified contract at bscscan: https://testnet.bscscan.com/address/0x7a3ca232a462e063eef49d3f8f55947cdb04a349#code
 
 ## Requirements
