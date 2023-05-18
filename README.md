@@ -57,3 +57,144 @@ Allows the owner of the contract to change the `mint_fee` value to a new price.
 ### `getDogTokenUri(uint256 index) public view returns (string memory)`
 
 Returns the URI of the image associated with a particular dog breed. The `index` parameter corresponds to the Breed enum.
+# NftOnRevealLowerGas Contract
+
+This contract is an ERC721 implementation created as a part of HashLips ERC721 tutorial, with some gas optimization improvements made by the author.
+
+## Prerequisites
+
+- Solidity version >=0.7.0 <0.9.0
+- `@openzeppelin/contracts/token/ERC721/ERC721.sol` library
+- `@openzeppelin/contracts/utils/Counters.sol` library
+- `@openzeppelin/contracts/access/Ownable.sol` library
+
+## Contract Details
+
+The `NftOnRevealLowerGas` contract extends the ERC721 standard and includes additional functionalities to manage and mint NFTs.
+
+### Contract Variables
+
+- `uriPrefix`: A string variable representing the prefix of the token URI.
+- `uriSuffix`: A string variable representing the suffix of the token URI.
+- `hiddenMetadataUri`: A string variable representing the URI for hidden metadata.
+- `cost`: A uint256 variable representing the cost (in Ether) to mint each NFT.
+- `maxSupply`: A uint256 variable representing the maximum supply limit for NFTs.
+- `maxMintAmountPerTx`: A uint256 variable representing the maximum number of NFTs that can be minted per transaction.
+- `paused`: A boolean variable indicating whether the contract is paused.
+- `revealed`: A boolean variable indicating whether the NFTs have been revealed.
+
+### Contract Functions
+
+#### `totalSupply()`
+
+```solidity
+function totalSupply() public view returns (uint256)
+```
+
+Returns the total number of NFTs that have been minted.
+
+#### `mint(uint256 _mintAmount)`
+
+```solidity
+function mint(uint256 _mintAmount) public payable mintCompliance(_mintAmount)
+```
+
+Allows users to mint a specified number of NFTs by sending the required amount of Ether. The `_mintAmount` parameter specifies the number of NFTs to mint.
+
+#### `mintForAddress(uint256 _mintAmount, address _receiver)`
+
+```solidity
+function mintForAddress(uint256 _mintAmount, address _receiver) public mintCompliance(_mintAmount) onlyOwner
+```
+
+Allows the contract owner to mint a specified number of NFTs on behalf of a specified receiver address. The `_mintAmount` parameter specifies the number of NFTs to mint, and the `_receiver` parameter specifies the address of the receiver.
+
+#### `walletOfOwner(address _owner)`
+
+```solidity
+function walletOfOwner(address _owner) public view returns (uint256[] memory)
+```
+
+Returns an array of token IDs owned by the specified `_owner` address.
+
+#### `tokenURI(uint256 _tokenId)`
+
+```solidity
+function tokenURI(uint256 _tokenId) public view virtual override returns (string memory)
+```
+
+Returns the URI for a specific token ID. If the NFTs have not been revealed, the function returns the hidden metadata URI. Otherwise, it constructs the token URI using the base URI, token ID, and URI suffix.
+
+#### `setRevealed(bool _state)`
+
+```solidity
+function setRevealed(bool _state) public onlyOwner
+```
+
+Allows the contract owner to set the revealed state of the NFTs. The `_state` parameter specifies whether the NFTs are revealed or hidden.
+
+#### `setCost(uint256 _cost)`
+
+```solidity
+function setCost(uint256 _cost) public onlyOwner
+```
+
+Allows the contract owner to set the cost (in Ether) to mint each NFT. The `_cost` parameter specifies the new cost.
+
+#### `setMaxMintAmountPerTx(uint256 _maxMintAmountPerTx)`
+
+```solid
+
+ity
+function setMaxMintAmountPerTx(uint256 _maxMintAmountPerTx) public onlyOwner
+```
+
+Allows the contract owner to set the maximum number of NFTs that can be minted per transaction. The `_maxMintAmountPerTx` parameter specifies the new maximum mint amount.
+
+#### `setHiddenMetadataUri(string memory _hiddenMetadataUri)`
+
+```solidity
+function setHiddenMetadataUri(string memory _hiddenMetadataUri) public onlyOwner
+```
+
+Allows the contract owner to set the URI for hidden metadata. The `_hiddenMetadataUri` parameter specifies the new hidden metadata URI.
+
+#### `setUriPrefix(string memory _uriPrefix)`
+
+```solidity
+function setUriPrefix(string memory _uriPrefix) public onlyOwner
+```
+
+Allows the contract owner to set the prefix of the token URI. The `_uriPrefix` parameter specifies the new URI prefix.
+
+#### `setUriSuffix(string memory _uriSuffix)`
+
+```solidity
+function setUriSuffix(string memory _uriSuffix) public onlyOwner
+```
+
+Allows the contract owner to set the suffix of the token URI. The `_uriSuffix` parameter specifies the new URI suffix.
+
+#### `setPaused(bool _state)`
+
+```solidity
+function setPaused(bool _state) public onlyOwner
+```
+
+Allows the contract owner to pause or unpause the contract. The `_state` parameter specifies whether to pause or unpause the contract.
+
+#### `withdraw()`
+
+```solidity
+function withdraw() public onlyOwner
+```
+
+Allows the contract owner to withdraw the contract's balance to their address.
+
+#### `__mintLoop(address _receiver, uint256 _mintAmount)`
+
+Internal function used to mint a specified number of NFTs and assign them to the `_receiver` address.
+
+#### `_baseURI()`
+
+Internal function used to get the base URI for the token.
